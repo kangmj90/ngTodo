@@ -1,4 +1,26 @@
-<p>
-  index works!
-</p>
-<router-outlet></router-outlet>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<mat-toolbar color="primary">
+  <span>AngularTodo</span>
+  <span style="flex:1 1 auto"></span>
+  <button mat-icon-button [matMenuTriggerFor]="menu">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item routerLink="/">
+      <mat-icon>home</mat-icon>
+      <span>home</span>
+    </button>
+    <button mat-menu-item routerLink="/jquery">
+      <mat-icon>dialpad</mat-icon>
+      <span>jquery</span>
+    </button>
+    <button mat-menu-item >
+      <mat-icon>polymer</mat-icon>
+      <span>angualr</span>
+    </button>
+  </mat-menu>
+</mat-toolbar>
+<div class="container">
+  <router-outlet></router-outlet>
+</div>
+

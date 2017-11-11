@@ -7,7 +7,7 @@ import {NgModule} from "@angular/core";
 const routes: Routes = [
   {path: '', component: IndexComponent, children: [
     {path: '', component: HomeComponent},
-    {path: '', component: JqueryComponent},
+    {path: 'jquery', component: JqueryComponent},
   ]},
 ];
 
