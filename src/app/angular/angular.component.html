@@ -3,10 +3,15 @@
     <mat-card-title>My Todo's</mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <div fxLayout="row">
-      <input type="text" placeholder="할일" id="input_todo" fxFlex="4 1 auto">
-      <button class="active" type="button" fxFlex="1 1 auto" onclick="add_todo()">추가</button>
-    </div>
+    <form ngNativeValidate #myForm="ngForm" (submit)="add_todo()">
+      <div fxLayout="row">
+        <mat-form-field fxFlex="4 1 auto" fxLayoutAlign="">
+          <input matInput placeholder="할 일" [(ngModel)]="todo" name="todo" required>
+        </mat-form-field>
+        <button mat-raised-button color="primary" fxFlex="1 1 auto">추가</button>
+      </div>
+    </form>
+
     <hr>
     <table class="table">
       <thead>
