@@ -62,6 +62,7 @@ export class AngularComponent implements OnInit {
   }
 
   remove(item: TodoVO) {
+    // Promise 사용
     const result = window.confirm("삭제하시겠습니까?");
     if (result) {
       // 서버에 삭제요청을 하고 성공하면 arraylist 에서 제거
