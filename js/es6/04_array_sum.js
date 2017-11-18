@@ -8,3 +8,6 @@ let array4= [...array1, ...array2, ...array3];
 var sum = 0;
 array4.forEach(item => sum += item)
 console.log(sum);
+
+sum = array4.reduce((prev, curr) => prev + curr);
+console.log(sum)

@@ -2,3 +2,26 @@ tabbed postman -rest client
 fiddler
 npm install --save @angular/flex-layout
 npm install --save @angular/material @angular/cdk
+
+* es6:
+class에 멤버변수가 없다.
+=> 생성자에 this로 선언
+접근제어자 없다.
+=> set, get 함수로 제어
+오버로딩 불가능
+
+* typescript:
+class에 멤버변수가 있다.
+접근제어자(private)가 있다.
+디폴트가 public
+오버로딩 가능
+=> default, ?는 optional keyword
+
+stream: ofdata : 시간
+
+Array : data
+
+tsc 01_observable.ts > js 생성
+
+http://readtrend.com/
+https://www.slideshare.net/

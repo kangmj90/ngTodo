@@ -1,20 +1,96 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import {TodoVO} from "../domain/todo.vo";
+import {UserService} from "../user.service";
+import {animate, state, style, transition, trigger} from "@angular/animations";
+import {ResultVo} from "../domain/result.vo";
 
 @Component({
   selector: 'app-angular',
   templateUrl: './angular.component.html',
   styleUrls: ['./angular.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  animations: [
+    trigger('flyInOut', [
+      state('In', style({transform: 'translate(0, 0)'})),
+      transition('void => *', [
+        style({transform: 'translate(-100%, 0)'}),
+        animate(300)
+      ]),
+      transition('* => void', [
+        animate(300, style({transform: 'translate(0, -100%)', opacity: '0'}))
+      ])
+    ])
+  ]
+
 })
 export class AngularComponent implements OnInit {
-  todo;
-  constructor() { }
+  newTodo = new TodoVO(); // 타입 유추 가능으로 변수에 타입 선언하지 않아도 된다.
+  todoList = new Array<TodoVO>();
+
+  // 저장할 데이터
+  tempMap = new Map<number, TodoVO>();
+
+  constructor(private userService: UserService) { }
 
   ngOnInit() {
+    this.getTodoList();
   }
 
   add_todo() {
     console.log('click');
+    this.userService.addTodo(this.newTodo).then((data: TodoVO) => {
+      this.todoList.unshift(data);
+      this.newTodo.todo = null;
+    });
   }
 
+  getTodoList() {
+    this.userService.getTodoList()
+      .then((data: Array<TodoVO>) => {
+        console.log(data);
+        this.todoList = data;
+      });
+  }
+
+  save(item: TodoVO) {
+    item.isEdited = true;
+    // 기존값 저장
+    const newTemp = new TodoVO();
+    newTemp.todo = item.todo;
+    newTemp.isFinished = item.isFinished;
+    this.tempMap.set(item.todo_id, newTemp);
+  }
+
+  remove(item: TodoVO) {
+    const result = window.confirm("삭제하시겠습니까?");
+    if (result) {
+      // 서버에 삭제요청을 하고 성공하면 arraylist 에서 제거
+      this.userService.removeTodo(item.todo_id)
+        .then((data: ResultVo) => {
+          if (data.result === 0) {
+            // 목록에서 제거
+            const index = this.todoList.findIndex(value => value.todo_id === item.todo_id);
+            this.todoList.splice(index, 1);
+          }
+        });
+    }
+  }
+
+  modify(item: TodoVO) {
+    // 서버에 수정요청하고 성공시 기존 원 템플릿으로 복원
+    this.userService.modifyTodo(item)
+      .then((data: TodoVO) => {
+        item.isFinished = data.isFinished;
+        item.todo = data.todo;
+        item.updated = data.updated;
+        item.isEdited = false;
+      }) ;
+  }
+
+  restore(item: TodoVO) {
+    item.isEdited = false;
+    // 기존값 복원
+    item.todo = this.tempMap.get(item.todo_id).todo;
+    item.isFinished = this.tempMap.get(item.todo_id).isFinished;
+  }
 }

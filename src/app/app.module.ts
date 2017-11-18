@@ -14,6 +14,10 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {FlexLayoutModule} from "@angular/flex-layout";
 import { AngularComponent } from './angular/angular.component';
 import {FormsModule} from "@angular/forms";
+import {UserService} from "./user.service";
+import {HttpClientModule} from "@angular/common/http";
+import { HighlightDirective } from './highlight.directive';
+import { MydatePipe } from './mydate.pipe';
 
 @NgModule({
   declarations: [
@@ -21,7 +25,9 @@ import {FormsModule} from "@angular/forms";
     IndexComponent,
     HomeComponent,
     JqueryComponent,
-    AngularComponent
+    AngularComponent,
+    HighlightDirective,
+    MydatePipe
   ],
   imports: [
     BrowserModule,
@@ -35,9 +41,10 @@ import {FormsModule} from "@angular/forms";
     MatInputModule,
     BrowserAnimationsModule,
     FlexLayoutModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
